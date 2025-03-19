@@ -26,4 +26,15 @@ public class LoginPageTest {
         instance.findElement(By.cssSelector("#login-form > button")).click();
     }
 
+    // 命名风格（xxxSuc 代表预期成功的案例）
+    public void loginSuc() {
+        login("2040484356777@qq.com", "123456");
+    }
+
+    // 命名风格（xxxFail 代表预期失败的案例）
+    public void loginFail() {
+        login("2040484356777@qq.com", "666666");
+    }
+
+
 }

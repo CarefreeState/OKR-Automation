@@ -13,7 +13,7 @@ jsonRequest("/testdoc/" + path, "GET", null, function (data) {
         "'" +
         getDirUrl(name) +
         "'" +
-        ')"><span class="file-icon">📁</span><span style="color: #002366" class="file-name">' +
+        ')"><span class="file-icon">📁</span><span style="color: #551a8b" class="file-name">' +
         name +
         "</span></div></li>";
     } else {

@@ -11,7 +11,7 @@ body {
   background-color: #ffffff; /* 白色背景 */
   color: #333333; /* 深灰色文字 */
   margin: 0;
-  padding: 20px;
+  padding: 5px;
 }
 
 .container {
@@ -21,8 +21,16 @@ body {
 
 h1 {
   text-align: center;
-  color: #002366; /* 克莱因蓝 */
   margin-bottom: 20px;
+}
+
+h1 a {
+  color: #551a8b;
+  text-decoration: none;
+}
+
+h1 a:active{
+  color: #551a8b;
 }
 
 .file-list {

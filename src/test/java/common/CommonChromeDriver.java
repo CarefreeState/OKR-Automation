@@ -61,19 +61,25 @@ public class CommonChromeDriver {
                 .flatMap(stream -> stream)
                 .filter(str -> Objects.nonNull(str) && !str.isBlank())
                 .collect(Collectors.joining("/"));
+        // 堆栈信息的第一个元素是 getStackTrace 方法本身，第二个元素是 shot 方法，第三个元素是调用 shot 的方法
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         // 工作目录为相对路径，获得一个唯一的文件路径
         String fileName = String.format(
-                "./testdoc/images/automation/chrome/%s/%s/%s-%c.png",
+                "./testdoc/images/automation/chrome/%s/%s/%s-%s-%c.png",
                 Utils.nowDate(),
                 tag.isBlank() ? "tmp" : tag,
                 Utils.nowTime(),
+                stackTrace.length >= 3 ? stackTrace[2].getMethodName() : "none",
                 Utils.randomChar()
         );
-        // 按快门
+        // 按下快门
+        // todo 无法截取 alert 的情况，无头模式的时候是否记录，模拟键盘的截图怎么样？无头模式下模拟键盘的截图是否可以记录
+        // 但对于大部分情况下，不会直接用 alert，而是用模态框
+        // todo 实战一下 Actions、Robot，比如用 Actions 模拟鼠标双击选中文本并删除再填入文本，Robot 模拟键盘进行截图
         File srcFile = shotInstance.getScreenshotAs(OutputType.FILE);
         // 下载到指定位置
         try {
-            FileUtils.copyFile(srcFile, new File(fileName));
+             FileUtils.copyFile(srcFile, new File(fileName));
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);
