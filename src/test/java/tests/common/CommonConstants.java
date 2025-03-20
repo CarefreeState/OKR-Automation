@@ -1,4 +1,4 @@
-package common;
+package tests.common;
 
 /**
  * Created With Intellij IDEA

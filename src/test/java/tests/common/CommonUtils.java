@@ -1,4 +1,4 @@
-package common;
+package tests.common;
 
 import cn.hutool.core.util.RandomUtil;
 

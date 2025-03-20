@@ -1,6 +1,6 @@
-package tests;
+package tests.domain.users;
 
-import common.CommonChromeDriver;
+import tests.driver.CommonChromeDriver;
 
 /**
  * Created With Intellij IDEA

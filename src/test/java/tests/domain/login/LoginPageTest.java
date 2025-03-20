@@ -1,10 +1,10 @@
-package tests;
+package tests.domain.login;
 
-import common.CommonChromeDriver;
+import tests.driver.CommonChromeDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static common.CommonChromeDriver.instance;
+import static tests.driver.CommonChromeDriver.instance;
 
 /**
  * Created With Intellij IDEA

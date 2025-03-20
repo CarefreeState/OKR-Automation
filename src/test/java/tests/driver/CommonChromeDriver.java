@@ -1,4 +1,4 @@
-package common;
+package tests.driver;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -9,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import tests.common.CommonConstants;
+import tests.common.CommonUtils;
 
 import java.io.File;
 import java.io.IOException;

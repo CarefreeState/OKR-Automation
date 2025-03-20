@@ -1,8 +1,9 @@
 package tests;
 
-import common.CommonChromeDriver;
+import tests.driver.CommonChromeDriver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tests.domain.login.LoginPageTest;
 
 /**
  * Created With Intellij IDEA
@@ -25,14 +26,12 @@ public class RunTests {
     @Test
     public void testLogin() {
         CommonChromeDriver.test(() -> {
+            // 登录测试
             LoginPageTest loginPageTest = new LoginPageTest();
             loginPageTest.loginSuc();
             loginPageTest.loginFail();
         });
     }
 
-    public void test() {
-
-    }
 
 }
