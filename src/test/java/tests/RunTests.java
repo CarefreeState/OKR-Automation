@@ -73,7 +73,7 @@ public class RunTests {
     }
 
     @Test
-    public void testUpdateTypeByUsername() {
+    public void testUserManagementPage() {
         CommonChromeDriver.test(() -> {
             // 测试所有功能
             UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
@@ -81,9 +81,23 @@ public class RunTests {
             userManagementPageTest.updateTypeByUsernameSuc();
             // 2. 异常修改用户类型
             userManagementPageTest.updateTypeByUsernameFail();
+            // 3. 重置头像
+            userManagementPageTest.resetAvatarSuc();
         });
-
     }
+
+    @Test
+    public void testUserManagementPageQuery() {
+        CommonChromeDriver.test(() -> {
+            // 测试所有功能
+            UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
+            // 1. 正常条件查询用户
+            userManagementPageTest.queryUsersNormalConditionSuc();
+            // 2. 正常条件分页查询用户
+            userManagementPageTest.queryUsersNormalPageParamSuc();
+        });
+    }
+
     @Test
     public void testAll() {
 

@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import tests.common.CommonConstants;
 import tests.domain.login.LoginPageTest;
 import tests.driver.CommonChromeDriver;
 
@@ -39,6 +40,7 @@ public class VerticalOversteppingTest {
         LOGIN_PAGE_TEST.assertLoginSuc();
 
         // 查询当前管理员
+        CommonChromeDriver.to(CommonConstants.USER_MANAGEMENT);
         instance.findElement(By.cssSelector("#toggle-search")).click();
         instance.findElement(By.cssSelector("#input-username")).click();
         instance.findElement(By.cssSelector("#input-username")).sendKeys(username);
@@ -47,8 +49,7 @@ public class VerticalOversteppingTest {
         // 显示等待请求加载
         explicitlyWait.until(ExpectedConditions.textToBePresentInElementLocated(
                 By.cssSelector("#user-list > div > div.user-info > span:nth-child(1)"),
-                username)
-        );
+                username));
 
         // 点击更新用户类型按钮
         instance.findElement(By.cssSelector("#user-list > div > div.actions > button.update-type")).click();

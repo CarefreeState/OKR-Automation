@@ -71,12 +71,11 @@ public class AvatarManagementPageTest {
     public int avatarUploadSuc(String... filePath) {
         CommonChromeDriver.to(CommonConstants.AVATAR_MANAGEMENT);
 
-        // 查询现在的元素数
+        // 查询现在的元素数（findElements >= 1 个结果）
         int oldSize = instance.findElements(By.cssSelector("body > div.container > div.avatar-management > div > div")).size();
 
         // 上传文件按钮哪怕是 none 也可以 sendKeys
-        CommonUtils.sleep(1000); // 强制等待 1 秒防止被限流
-        instance.findElement(By.cssSelector("#upload-input")).sendKeys(filePath);
+        instance.findElement(By.cssSelector("#upload-input")).sendKeys(CommonUtils.joining("\n", filePath));
 
         // 断言
         assertUploadSuc(oldSize);
@@ -89,7 +88,6 @@ public class AvatarManagementPageTest {
         CommonChromeDriver.to(CommonConstants.AVATAR_MANAGEMENT);
 
         // 上传文件按钮哪怕是 none 也可以 sendKeys
-        CommonUtils.sleep(1000); // 强制等待 1 秒防止被限流
         instance.findElement(By.cssSelector("#upload-input")).sendKeys(filePath);
 
         // 断言
@@ -111,7 +109,7 @@ public class AvatarManagementPageTest {
         index = avatarUploadSuc(CommonConstants.getPath("beian.jpg"));
         avatarDeleteSuc(index);
         // 上传多个文件（只生效 notice.png）
-        index = avatarUploadSuc(CommonConstants.getPath("notice.png"), "\n", CommonConstants.getPath("beian.jpg"));
+        index = avatarUploadSuc(CommonConstants.getPath("notice.png"), CommonConstants.getPath("beian.jpg"));
         avatarDeleteSuc(index);
     }
 

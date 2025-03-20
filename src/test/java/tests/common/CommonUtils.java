@@ -52,12 +52,16 @@ public class CommonUtils {
         }
     }
 
+    public static boolean hasText(String str) {
+        return Objects.nonNull(str) && !str.isBlank();
+    }
+
     public static String joining(String delimiter, String... tags) {
         return Optional.ofNullable(tags)
                 .map(Arrays::stream)
                 .stream()
                 .flatMap(stream -> stream)
-                .filter(str -> Objects.nonNull(str) && !str.isBlank())
+                .filter(CommonUtils::hasText)
                 .collect(Collectors.joining(delimiter));
     }
 
