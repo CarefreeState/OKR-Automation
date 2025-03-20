@@ -13,10 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Created With Intellij IDEA
@@ -53,21 +50,27 @@ public class CommonChromeDriver {
     }
 
     public static void quit() {
-        instance.quit();
+        Optional.ofNullable(instance).ifPresent(WebDriver::quit);
         instance = null;
         shotInstance = null;
         webDriverWait = null;
     }
 
+    /**
+     * 线程不安全，不应该多线程调用此方法
+     */
     public static void test(Runnable runnable) {
-        start();
+        long now = System.currentTimeMillis();
         try {
+            log.info("{} 开始执行测试用例", CommonUtils.nowDateTime());
+            start();
             runnable.run();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw e;
         } finally {
             quit();
+            log.info("{} 测试用例执行结束，共耗时 {} ms",
+                    CommonUtils.nowDateTime(),
+                    System.currentTimeMillis() - now
+            );
         }
     }
 
@@ -75,42 +78,58 @@ public class CommonChromeDriver {
         instance.navigate().to(url);
 //        instance.get(url);
     }
-
-    public static void shot(String... tags) {
-        // 组合一个目录
-        String tag = Optional.ofNullable(tags)
-                .map(Arrays::stream)
-                .stream()
-                .flatMap(stream -> stream)
-                .filter(str -> Objects.nonNull(str) && !str.isBlank())
-                .collect(Collectors.joining("/"));
+    public static void shot() {
         // 堆栈信息的第一个元素是 getStackTrace 方法本身，第二个元素是 shot 方法，第三个元素是调用 shot 的方法
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String origin = stackTrace.length >= 3 ? stackTrace[2].getMethodName() : "none"; // 先获取 origin，否则调用了其他方法就乱了
+        shot(origin);
+    }
+
+    public static void shot(Runnable runnable) {
+        // 堆栈信息的第一个元素是 getStackTrace 方法本身，第二个元素是 shot 方法，第三个元素是调用 shot 的方法
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String origin = stackTrace.length >= 3 ? stackTrace[2].getMethodName() : "none"; // 先获取 origin，否则调用了其他方法就乱了
+        try {
+            runnable.run();
+        } finally {
+            shot(origin);
+        }
+    }
+
+    public static void shot(String origin) {
+//    public static void shot(String... tags) {
+//        // 组合一个目录
+//        String tag = Optional.ofNullable(tags)
+//                .map(Arrays::stream)
+//                .stream()
+//                .flatMap(stream -> stream)
+//                .filter(str -> Objects.nonNull(str) && !str.isBlank())
+//                .collect(Collectors.joining("/"));
+
         // 工作目录为相对路径，获得一个唯一的文件路径
         String fileName = String.format(
-                "./testdoc/images/automation/chrome/%s/%s/%s-%s-%c.png",
+                "./testdoc/images/automation/OKR-Management/chrome/%s/%s/%s-%s-%c.png",
                 CommonUtils.nowDate(),
-                tag.isBlank() ? "tmp" : tag,
+                CommonConstants.NUM_TAG,
                 CommonUtils.nowTime(),
-                stackTrace.length >= 3 ? stackTrace[2].getMethodName() : "none",
+                origin,
                 CommonUtils.randomChar()
         );
         // 按下快门
-        // todo 无法截取 alert 的情况，无头模式的时候是否记录，模拟键盘的截图怎么样？无头模式下模拟键盘的截图是否可以记录
-        // 但对于大部分情况下，不会直接用 alert，而是用模态框
+        // todo 无法截取 alert 的情况，无头模式的时候是否记录，模拟键盘的截图怎么样？无头模式下模拟键盘的截图是否可以记录，但对于大部分情况下，不会直接用 alert，而是用模态框
         // todo 实战一下 Actions、Robot，比如用 Actions 模拟鼠标双击选中文本并删除再填入文本，Robot 模拟键盘进行截图
+        CommonChromeDriver.waitReady();
         File srcFile = shotInstance.getScreenshotAs(OutputType.FILE);
         // 下载到指定位置
         try {
             FileUtils.copyFile(srcFile, new File(fileName));
         } catch (IOException e) {
             log.error(e.getMessage());
-            throw new RuntimeException(e);
         }
     }
 
     // 没法解决请求延迟的问题，请求延迟的等待，必须要根据相应的现象啊！
-    public static void waitRead() {
+    public static void waitReady() {
         CommonChromeDriver.webDriverWait.until(driver -> {
             return (Boolean) ((JavascriptExecutor) driver).executeScript("""
                 return window.performance.getEntriesByType('resource').every(resource => resource.responseEnd > 0);

@@ -17,10 +17,6 @@ public class LoginPageTest {
 
     private final static String loginPage = "https://manage.bitterfree.cn/login.html";
 
-    {
-        CommonChromeDriver.to(loginPage);
-    }
-
     public void login(String username, String password) {
         CommonChromeDriver.to(loginPage);
         instance.findElement(By.cssSelector("#username")).clear();
@@ -39,14 +35,19 @@ public class LoginPageTest {
 //        Assertions.assertNotEquals("管理员登录", title);
 //        Assertions.assertNotEquals(loginPage, instance.getCurrentUrl());
         // 需要通过等待判断用例是否通过（等不到则说明用例失败，显示等待超时抛超时异常）
-        CommonChromeDriver.webDriverWait.until(ExpectedConditions.not(ExpectedConditions.urlContains(loginPage)));
+        CommonChromeDriver.shot(() -> {
+            CommonChromeDriver.webDriverWait.until(ExpectedConditions.not(ExpectedConditions.urlContains(loginPage)));
+        });
+
     }
 
     private void assertLoginFail() {
         // 判断是否登录失败
         // 判断是否有弹框，超时代表不通过（前提是错误现象真的一定是这个）
         // 根据实际情况：前端的警告弹框都会放在 div.jq-toast-wrap.bottom-right
-        CommonChromeDriver.webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("body > div.jq-toast-wrap.bottom-right")));
+        CommonChromeDriver.shot(() -> {
+            CommonChromeDriver.webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("body > div.jq-toast-wrap.bottom-right")));
+        });
     }
 
     // 命名风格（xxxSuc 代表预期成功的案例）
@@ -68,6 +69,5 @@ public class LoginPageTest {
         login("", "");
         assertLoginFail();
     }
-
 
 }

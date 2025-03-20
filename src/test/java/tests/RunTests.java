@@ -1,6 +1,7 @@
 package tests;
 
 import common.CommonChromeDriver;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -17,6 +18,8 @@ public class RunTests {
         // 正常情况需要添加 VM Options（-ea -Dfile.encoding=UTF-8）启动 assert 这个 java 关键字的作用
         // 下在 JUnit 单元测试的时候，assert 默认是启动的（断言为 false 就会抛出 AssertionError）
         assert 1 + 1 != 2;
+        // 适用 junit assert 工具包
+        Assertions.assertEquals(2, 1 + 1);
     }
 
     @Test
@@ -29,20 +32,7 @@ public class RunTests {
     }
 
     public void test() {
-        CommonChromeDriver.test(() -> {
 
-            // 要注意不同测试用例之间的依赖！
-
-//            Utils.sleep(5000);
-//            CommonChromeDriver.instance.findElement(By.cssSelector("#toggle-search")).click();
-//            Utils.sleep(5000);
-
-//            UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
-//            Utils.sleep(2000);
-
-//            AvatarManagementPageTest avatarManagementPageTest =   new AvatarManagementPageTest();
-//            Utils.sleep(2000);
-        });
     }
 
 }

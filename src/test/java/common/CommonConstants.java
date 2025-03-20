@@ -9,6 +9,8 @@ package common;
  */
 public interface CommonConstants {
 
+    String NUM_TAG = "07"; // [01, ff]
+
     long explicitlyWait = 1000;
 
     Boolean debug = Boolean.TRUE;
