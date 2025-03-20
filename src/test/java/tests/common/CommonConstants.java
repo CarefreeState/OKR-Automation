@@ -9,9 +9,14 @@ package tests.common;
  */
 public interface CommonConstants {
 
-    String NUM_TAG = "0b"; // [01, ff]
+    String NUM_TAG = "07"; // [01, ff]
     long EXPLICITLY_WAIT = 5000; // 允许网速很慢（超时等待就报错，反正就那一个）
     long IMPLICITLY_WAIT = 5000; // 允许网速很慢（超时等待就报错，反正就那一个）
+
+    String RESOURCES_PATH = "D:/javawork/OKR-Automation/src/test/resources/"; // 测试资源的根目录
+    static String getPath(String fileName) {
+        return RESOURCES_PATH + fileName;
+    }
 
 
     String LOGIN_PAGE = "https://manage.bitterfree.cn/login.html";

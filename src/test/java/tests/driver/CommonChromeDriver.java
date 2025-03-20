@@ -2,10 +2,7 @@ package tests.driver;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,6 +33,7 @@ public class CommonChromeDriver {
     public static TakesScreenshot shotInstance;
     public static WebDriverWait explicitlyWait;
 
+    // 每次都是创建新的 window，甚至 cookie 都没有，不必担心有浏览器缓存
     public static WebDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions(); // 创建选项
         options.addArguments("--remote-allow-origins=*"); // 允许所有远程源访问
@@ -131,6 +129,10 @@ public class CommonChromeDriver {
         explicitlyWait.until(driver -> {
             return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
         });
+    }
+
+    public static String getText(WebElement element) {
+        return element.getAttribute("innerText");
     }
 
 }

@@ -1,9 +1,9 @@
 package tests.domain.login;
 
-import tests.common.CommonConstants;
-import tests.driver.CommonChromeDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import tests.common.CommonConstants;
+import tests.driver.CommonChromeDriver;
 
 import static tests.driver.CommonChromeDriver.explicitlyWait;
 import static tests.driver.CommonChromeDriver.instance;

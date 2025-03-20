@@ -1,12 +1,12 @@
 package tests;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tests.domain.avatar.AvatarManagementPageTest;
+import tests.domain.login.LoginPageTest;
 import tests.domain.permit.HorizontalOversteppingTest;
 import tests.domain.permit.VerticalOversteppingTest;
 import tests.driver.CommonChromeDriver;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import tests.domain.login.LoginPageTest;
 
 /**
  * Created With Intellij IDEA
@@ -66,6 +66,8 @@ public class RunTests {
             AvatarManagementPageTest avatarManagementPageTest = new AvatarManagementPageTest();
             // 1. 正常的上传头像和删除
             avatarManagementPageTest.avatarOperateSuc();
+            // 2. 异常的上传头像和删除
+            avatarManagementPageTest.avatarOperateFail();
         });
     }
 

@@ -3,14 +3,11 @@ package tests.domain.avatar;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import tests.common.CommonConstants;
 import tests.common.CommonUtils;
 import tests.domain.login.LoginPageTest;
 import tests.driver.CommonChromeDriver;
-
-import java.util.List;
 
 import static tests.driver.CommonChromeDriver.explicitlyWait;
 import static tests.driver.CommonChromeDriver.instance;
@@ -31,6 +28,15 @@ public class AvatarManagementPageTest {
         CommonChromeDriver.shot(() -> {
             String selector = String.format("body > div.container > div.avatar-management > div > div:nth-child(%d)", oldSize + 1);
             explicitlyWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
+        });
+    }
+
+    public void assertUploadFail() {
+        CommonChromeDriver.shot(() -> {
+            WebElement webElement = explicitlyWait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.cssSelector("body > div.jq-toast-wrap.bottom-right > div > h2")
+            ));
+            Assertions.assertEquals("异常", CommonChromeDriver.getText(webElement));
         });
     }
 
@@ -62,14 +68,13 @@ public class AvatarManagementPageTest {
         assertDeleteSuc(oldSize);
     }
 
-    public int avatarUploadSuc() {
+    public int avatarUploadSuc(String... filePath) {
         CommonChromeDriver.to(CommonConstants.AVATAR_MANAGEMENT);
 
         // 查询现在的元素数
         int oldSize = instance.findElements(By.cssSelector("body > div.container > div.avatar-management > div > div")).size();
 
         // 上传文件按钮哪怕是 none 也可以 sendKeys
-        String filePath = "D:/notice.png";
         CommonUtils.sleep(1000); // 强制等待 1 秒防止被限流
         instance.findElement(By.cssSelector("#upload-input")).sendKeys(filePath);
 
@@ -80,15 +85,48 @@ public class AvatarManagementPageTest {
         return oldSize;
     }
 
+    public void avatarUploadFail(String filePath) {
+        CommonChromeDriver.to(CommonConstants.AVATAR_MANAGEMENT);
+
+        // 上传文件按钮哪怕是 none 也可以 sendKeys
+        CommonUtils.sleep(1000); // 强制等待 1 秒防止被限流
+        instance.findElement(By.cssSelector("#upload-input")).sendKeys(filePath);
+
+        // 断言
+        assertUploadFail();
+    }
+
     public void avatarOperateSuc() {
         // 管理员登录
-        String username = "2040484356777@qq.com";
-        LOGIN_PAGE_TEST.login(username, "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
         LOGIN_PAGE_TEST.assertLoginSuc();
-        // 上传头像测试
-        int index = avatarUploadSuc();
+        // 上传头像测试（必须是绝对路径）
+        int index = avatarUploadSuc(CommonConstants.getPath("notice.png"));
         // 删除头像测试
         avatarDeleteSuc(index);
+        // 重复上传相同的文件（防止其因为文件名未修改，而没有触发事件）
+        index = avatarUploadSuc(CommonConstants.getPath("notice.png"));
+        avatarDeleteSuc(index);
+        // 上传 jpg 文件
+        index = avatarUploadSuc(CommonConstants.getPath("beian.jpg"));
+        avatarDeleteSuc(index);
+        // 上传多个文件（只生效 notice.png）
+        index = avatarUploadSuc(CommonConstants.getPath("notice.png"), "\n", CommonConstants.getPath("beian.jpg"));
+        avatarDeleteSuc(index);
+    }
+
+    public void avatarOperateFail() {
+        // 管理员登录
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.assertLoginSuc();
+        // 上传 txt 文件
+        avatarUploadFail(CommonConstants.getPath("test.txt"));
+        // 上传 txt 改后缀成的 png 文件
+        avatarUploadFail(CommonConstants.getPath("bad.png"));
+        // 上传 png 文件（大于 3 M）
+        avatarUploadFail(CommonConstants.getPath("bigimg.png"));
+        // 上传 png 文件（空文件）
+        avatarUploadFail(CommonConstants.getPath("empty.png"));
     }
 
 }

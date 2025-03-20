@@ -1,7 +1,5 @@
 package tests.domain.users;
 
-import tests.driver.CommonChromeDriver;
-
 /**
  * Created With Intellij IDEA
  * Description:
