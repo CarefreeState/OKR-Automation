@@ -9,11 +9,13 @@ package tests.common;
  */
 public interface CommonConstants {
 
-    String NUM_TAG = "07"; // [01, ff]
+    String NUM_TAG = "0b"; // [01, ff]
+    long EXPLICITLY_WAIT = 5000; // 允许网速很慢（超时等待就报错，反正就那一个）
+    long IMPLICITLY_WAIT = 5000; // 允许网速很慢（超时等待就报错，反正就那一个）
 
-    long explicitlyWait = 1000;
 
-    Boolean debug = Boolean.TRUE;
-//    Boolean debug = Boolean.FALSE;
+    String LOGIN_PAGE = "https://manage.bitterfree.cn/login.html";
+    String USER_MANAGEMENT = "https://manage.bitterfree.cn/user-management.html";
+    String AVATAR_MANAGEMENT = "https://manage.bitterfree.cn/avatar-management.html";
 
 }

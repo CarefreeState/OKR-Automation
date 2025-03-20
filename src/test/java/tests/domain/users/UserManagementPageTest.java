@@ -11,8 +11,5 @@ import tests.driver.CommonChromeDriver;
  */
 public class UserManagementPageTest {
 
-    {
-        CommonChromeDriver.to("https://manage.bitterfree.cn/user-management.html");
-    }
 
 }

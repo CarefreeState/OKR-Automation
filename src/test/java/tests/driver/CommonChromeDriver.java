@@ -34,28 +34,28 @@ public class CommonChromeDriver {
 
     public static WebDriver instance;
     public static TakesScreenshot shotInstance;
-    public static WebDriverWait webDriverWait;
+    public static WebDriverWait explicitlyWait;
 
     public static WebDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions(); // 创建选项
         options.addArguments("--remote-allow-origins=*"); // 允许所有远程源访问
 //        options.addArguments("-headless"); // 无头模式
         ChromeDriver chromeDriver = new ChromeDriver(options); // 创建驱动
-        chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // 隐式等待
+        chromeDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(CommonConstants.IMPLICITLY_WAIT)); // 隐式等待
         return chromeDriver; // 发挥驱动
     }
 
     public static void start() {
         instance = createChromeDriver();
         shotInstance = (TakesScreenshot) instance;
-        webDriverWait = new WebDriverWait(instance, Duration.ofMillis(CommonConstants.explicitlyWait));
+        explicitlyWait = new WebDriverWait(instance, Duration.ofMillis(CommonConstants.EXPLICITLY_WAIT));
     }
 
     public static void quit() {
         Optional.ofNullable(instance).ifPresent(WebDriver::quit);
         instance = null;
         shotInstance = null;
-        webDriverWait = null;
+        explicitlyWait = null;
     }
 
     /**
@@ -99,15 +99,6 @@ public class CommonChromeDriver {
     }
 
     public static void shot(String origin) {
-//    public static void shot(String... tags) {
-//        // 组合一个目录
-//        String tag = Optional.ofNullable(tags)
-//                .map(Arrays::stream)
-//                .stream()
-//                .flatMap(stream -> stream)
-//                .filter(str -> Objects.nonNull(str) && !str.isBlank())
-//                .collect(Collectors.joining("/"));
-
         // 工作目录为相对路径，获得一个唯一的文件路径
         String fileName = String.format(
                 "./testdoc/images/automation/OKR-Management/chrome/%s/%s/%s-%s-%c.png",
@@ -130,14 +121,14 @@ public class CommonChromeDriver {
         }
     }
 
-    // 没法解决请求延迟的问题，请求延迟的等待，必须要根据相应的现象啊！
+    // 没法解决请求延迟的问题，请求延迟的等待，必须要根据相应的现象，再书写对应的显示等待
     public static void waitReady() {
-        CommonChromeDriver.webDriverWait.until(driver -> {
+        explicitlyWait.until(driver -> {
             return (Boolean) ((JavascriptExecutor) driver).executeScript("""
                 return window.performance.getEntriesByType('resource').every(resource => resource.responseEnd > 0);
             """);
         });
-        CommonChromeDriver.webDriverWait.until(driver -> {
+        explicitlyWait.until(driver -> {
             return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
         });
     }

@@ -4,7 +4,11 @@ import cn.hutool.core.util.RandomUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created With Intellij IDEA
@@ -40,24 +44,21 @@ public class CommonUtils {
         return RandomUtil.randomChar(BASE_STRING);
     }
 
-    public static void debugSleep(long ms) {
-        if(Boolean.TRUE.equals(CommonConstants.debug)) {
-            try {
-                Thread.sleep(ms);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+    public static void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static void sleep(long ms) {
-        if(Boolean.TRUE.equals(CommonConstants.debug)) {
-            try {
-                Thread.sleep(ms);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    public static String joining(String delimiter, String... tags) {
+        return Optional.ofNullable(tags)
+                .map(Arrays::stream)
+                .stream()
+                .flatMap(stream -> stream)
+                .filter(str -> Objects.nonNull(str) && !str.isBlank())
+                .collect(Collectors.joining(delimiter));
     }
 
 }

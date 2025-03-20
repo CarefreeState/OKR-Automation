@@ -1,9 +1,11 @@
 package tests.domain.login;
 
+import tests.common.CommonConstants;
 import tests.driver.CommonChromeDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import static tests.driver.CommonChromeDriver.explicitlyWait;
 import static tests.driver.CommonChromeDriver.instance;
 
 /**
@@ -15,10 +17,8 @@ import static tests.driver.CommonChromeDriver.instance;
  */
 public class LoginPageTest {
 
-    private final static String loginPage = "https://manage.bitterfree.cn/login.html";
-
     public void login(String username, String password) {
-        CommonChromeDriver.to(loginPage);
+        CommonChromeDriver.to(CommonConstants.LOGIN_PAGE);
         instance.findElement(By.cssSelector("#username")).clear();
         instance.findElement(By.cssSelector("#username")).click();
         instance.findElement(By.cssSelector("#username")).sendKeys(username);
@@ -28,7 +28,7 @@ public class LoginPageTest {
         instance.findElement(By.cssSelector("#login-form > button")).click();
     }
 
-    private void assertLoginSuc() {
+    public void assertLoginSuc() {
         // 判断是否登录成功
         // 因为请求延迟，这里的 title 无论结果如何都是原来的
 //        String title = instance.findElement(By.cssSelector("head > title")).getAttribute("innerText");
@@ -36,17 +36,17 @@ public class LoginPageTest {
 //        Assertions.assertNotEquals(loginPage, instance.getCurrentUrl());
         // 需要通过等待判断用例是否通过（等不到则说明用例失败，显示等待超时抛超时异常）
         CommonChromeDriver.shot(() -> {
-            CommonChromeDriver.webDriverWait.until(ExpectedConditions.not(ExpectedConditions.urlContains(loginPage)));
+            explicitlyWait.until(ExpectedConditions.not(ExpectedConditions.urlContains(CommonConstants.LOGIN_PAGE)));
         });
 
     }
 
-    private void assertLoginFail() {
+    public void assertLoginFail() {
         // 判断是否登录失败
         // 判断是否有弹框，超时代表不通过（前提是错误现象真的一定是这个）
         // 根据实际情况：前端的警告弹框都会放在 div.jq-toast-wrap.bottom-right
         CommonChromeDriver.shot(() -> {
-            CommonChromeDriver.webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("body > div.jq-toast-wrap.bottom-right")));
+            explicitlyWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("body > div.jq-toast-wrap.bottom-right")));
         });
     }
 
