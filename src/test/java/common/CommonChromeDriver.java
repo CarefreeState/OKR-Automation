@@ -2,11 +2,13 @@ package common;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +35,7 @@ public class CommonChromeDriver {
 
     public static WebDriver instance;
     public static TakesScreenshot shotInstance;
+    public static WebDriverWait webDriverWait;
 
     public static WebDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions(); // 创建选项
@@ -46,6 +49,26 @@ public class CommonChromeDriver {
     public static void start() {
         instance = createChromeDriver();
         shotInstance = (TakesScreenshot) instance;
+        webDriverWait = new WebDriverWait(instance, Duration.ofMillis(CommonConstants.explicitlyWait));
+    }
+
+    public static void quit() {
+        instance.quit();
+        instance = null;
+        shotInstance = null;
+        webDriverWait = null;
+    }
+
+    public static void test(Runnable runnable) {
+        start();
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        } finally {
+            quit();
+        }
     }
 
     public static void to(String url) {
@@ -66,11 +89,11 @@ public class CommonChromeDriver {
         // 工作目录为相对路径，获得一个唯一的文件路径
         String fileName = String.format(
                 "./testdoc/images/automation/chrome/%s/%s/%s-%s-%c.png",
-                Utils.nowDate(),
+                CommonUtils.nowDate(),
                 tag.isBlank() ? "tmp" : tag,
-                Utils.nowTime(),
+                CommonUtils.nowTime(),
                 stackTrace.length >= 3 ? stackTrace[2].getMethodName() : "none",
-                Utils.randomChar()
+                CommonUtils.randomChar()
         );
         // 按下快门
         // todo 无法截取 alert 的情况，无头模式的时候是否记录，模拟键盘的截图怎么样？无头模式下模拟键盘的截图是否可以记录
@@ -79,29 +102,23 @@ public class CommonChromeDriver {
         File srcFile = shotInstance.getScreenshotAs(OutputType.FILE);
         // 下载到指定位置
         try {
-             FileUtils.copyFile(srcFile, new File(fileName));
+            FileUtils.copyFile(srcFile, new File(fileName));
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
-    public static void quit() {
-        instance.quit();
-        instance = null;
-        shotInstance = null;
-    }
-
-    public static void test(Runnable runnable) {
-        start();
-        try {
-            runnable.run();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw e;
-        } finally {
-            quit();
-        }
+    // 没法解决请求延迟的问题，请求延迟的等待，必须要根据相应的现象啊！
+    public static void waitRead() {
+        CommonChromeDriver.webDriverWait.until(driver -> {
+            return (Boolean) ((JavascriptExecutor) driver).executeScript("""
+                return window.performance.getEntriesByType('resource').every(resource => resource.responseEnd > 0);
+            """);
+        });
+        CommonChromeDriver.webDriverWait.until(driver -> {
+            return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+        });
     }
 
 }

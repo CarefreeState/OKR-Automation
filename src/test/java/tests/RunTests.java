@@ -1,9 +1,7 @@
 package tests;
 
 import common.CommonChromeDriver;
-import common.Utils;
-import org.junit.Test;
-import org.openqa.selenium.By;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created With Intellij IDEA
@@ -22,24 +20,29 @@ public class RunTests {
     }
 
     @Test
-    public void test() {
+    public void testLogin() {
         CommonChromeDriver.test(() -> {
             LoginPageTest loginPageTest = new LoginPageTest();
             loginPageTest.loginSuc();
+            loginPageTest.loginFail();
+        });
+    }
+
+    public void test() {
+        CommonChromeDriver.test(() -> {
 
             // 要注意不同测试用例之间的依赖！
 
-            Utils.sleep(5000);
-            CommonChromeDriver.instance.findElement(By.cssSelector("#toggle-search")).click();
-            Utils.sleep(5000);
+//            Utils.sleep(5000);
+//            CommonChromeDriver.instance.findElement(By.cssSelector("#toggle-search")).click();
+//            Utils.sleep(5000);
 
 //            UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
 //            Utils.sleep(2000);
 
-//            AvatarManagementPageTest avatarManagementPageTest = new AvatarManagementPageTest();
+//            AvatarManagementPageTest avatarManagementPageTest =   new AvatarManagementPageTest();
 //            Utils.sleep(2000);
         });
-
     }
 
 }

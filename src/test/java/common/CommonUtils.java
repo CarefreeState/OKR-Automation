@@ -13,7 +13,7 @@ import java.util.Date;
  * Date: 2025-03-19
  * Time: 10:21
  */
-public class Utils {
+public class CommonUtils {
 
     public final static String BASE_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     public final static String DATE_PATTERN = "yyyy-MM-dd";
@@ -33,11 +33,23 @@ public class Utils {
         return RandomUtil.randomChar(BASE_STRING);
     }
 
+    public static void debugSleep(long ms) {
+        if(Boolean.TRUE.equals(CommonConstants.debug)) {
+            try {
+                Thread.sleep(ms);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static void sleep(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(Boolean.TRUE.equals(CommonConstants.debug)) {
+            try {
+                Thread.sleep(ms);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
