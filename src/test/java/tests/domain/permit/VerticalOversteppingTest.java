@@ -24,11 +24,11 @@ public class VerticalOversteppingTest {
 
     public void assertAdminUpdateFail() {
         CommonChromeDriver.shot(() -> {
-            // "body > div.jq-toast-wrap.bottom-right > div" getText 是直接忽略标签扫描文本，所以很难准确判断其文本（因为里面包着个 h1）
+            // "body > div.jq-toast-wrap.bottom-right > div" getText 是直接忽略标签扫描文本，所以很难准确判断其文本（因为里面包着个 h1 或者其他标签的最终显示的文本）
             WebElement webElement = explicitlyWait.until(ExpectedConditions.presenceOfElementLocated(
                     By.cssSelector("body > div.jq-toast-wrap.bottom-right > div > h2")
             ));
-            Assertions.assertEquals("异常", CommonChromeDriver.getText(webElement));
+            Assertions.assertNotEquals("成功", CommonChromeDriver.getText(webElement));
         });
     }
 

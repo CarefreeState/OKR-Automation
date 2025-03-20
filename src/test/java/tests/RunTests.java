@@ -6,6 +6,7 @@ import tests.domain.avatar.AvatarManagementPageTest;
 import tests.domain.login.LoginPageTest;
 import tests.domain.permit.HorizontalOversteppingTest;
 import tests.domain.permit.VerticalOversteppingTest;
+import tests.domain.users.UserManagementPageTest;
 import tests.driver.CommonChromeDriver;
 
 /**
@@ -71,6 +72,18 @@ public class RunTests {
         });
     }
 
+    @Test
+    public void testUpdateTypeByUsername() {
+        CommonChromeDriver.test(() -> {
+            // 测试所有功能
+            UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
+            // 1. 正常修改用户类型
+            userManagementPageTest.updateTypeByUsernameSuc();
+            // 2. 异常修改用户类型
+            userManagementPageTest.updateTypeByUsernameFail();
+        });
+
+    }
     @Test
     public void testAll() {
 
