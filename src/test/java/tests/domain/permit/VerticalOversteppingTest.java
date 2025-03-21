@@ -43,6 +43,7 @@ public class VerticalOversteppingTest {
         CommonChromeDriver.to(CommonConstants.USER_MANAGEMENT);
         instance.findElement(By.cssSelector("#toggle-search")).click();
 
+        // 由于原本是折起来的状态，跟 none 一样是少数不可点击的状态
         explicitlyWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-username")));
 
         instance.findElement(By.cssSelector("#input-username")).click();
