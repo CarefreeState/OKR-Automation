@@ -99,7 +99,7 @@ public class CommonChromeDriver {
     public static void shot(String origin) {
         // 工作目录为相对路径，获得一个唯一的文件路径
         String fileName = String.format(
-                "./testdoc/images/automation/OKR-Management/chrome/%s/%s/%s-%s-%c.png",
+                "./testdoc/images/automation/OKR-Management/Chrome/%s/%s/%s-%s-%c.png",
                 CommonUtils.nowDate(),
                 CommonConstants.NUM_TAG,
                 CommonUtils.nowTime(),
