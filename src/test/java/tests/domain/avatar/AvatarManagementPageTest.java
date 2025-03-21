@@ -96,7 +96,7 @@ public class AvatarManagementPageTest {
 
     public void avatarOperateSuc() {
         // 管理员登录
-        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
         // 上传头像测试（必须是绝对路径）
         int index = avatarUploadSuc(CommonConstants.getPath("notice.png"));
@@ -115,7 +115,7 @@ public class AvatarManagementPageTest {
 
     public void avatarOperateFail() {
         // 管理员登录
-        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
         // 上传 txt 文件
         avatarUploadFail(CommonConstants.getPath("test.txt"));

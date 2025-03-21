@@ -52,19 +52,19 @@ public class LoginPageTest {
 
     // 命名风格（xxxSuc 代表预期成功的案例）
     public void loginSuc() {
-        login("2040484356777@qq.com", "123456");
+        login("2040484356777@qq.com", CommonConstants.PASSWORD);
         assertLoginSuc();
     }
 
     // 命名风格（xxxFail 代表预期失败的案例）
     public void loginFail() {
-        login("mms", "123456");
+        login("mms", CommonConstants.PASSWORD);
         assertLoginFail();
         login("2040484356777@qq.com", "666666");
         assertLoginFail();
         login("2040484356777@qq.com", "");
         assertLoginFail();
-        login("", "123456");
+        login("", CommonConstants.PASSWORD);
         assertLoginFail();
         login("", "");
         assertLoginFail();

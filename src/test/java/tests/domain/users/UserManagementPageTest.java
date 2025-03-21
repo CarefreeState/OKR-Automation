@@ -57,6 +57,9 @@ public class UserManagementPageTest {
         CommonChromeDriver.to(CommonConstants.USER_MANAGEMENT);
         // 查询 username
         instance.findElement(By.cssSelector("#toggle-search")).click();
+
+        explicitlyWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-username")));
+
         instance.findElement(By.cssSelector("#input-username")).click();
         instance.findElement(By.cssSelector("#input-username")).sendKeys(username);
         instance.findElement(By.cssSelector("#toggle-search")).click(); // 失焦触发查询
@@ -81,7 +84,7 @@ public class UserManagementPageTest {
 
     public void resetAvatarSuc() {
         // 管理员登录
-        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
 
         // 重置头像
@@ -93,6 +96,9 @@ public class UserManagementPageTest {
         CommonChromeDriver.to(CommonConstants.USER_MANAGEMENT);
         // 查询 username
         instance.findElement(By.cssSelector("#toggle-search")).click();
+
+        explicitlyWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-username")));
+
         instance.findElement(By.cssSelector("#input-username")).click();
         instance.findElement(By.cssSelector("#input-username")).sendKeys(username);
         instance.findElement(By.cssSelector("#toggle-search")).click(); // 失焦触发查询
@@ -118,7 +124,7 @@ public class UserManagementPageTest {
 
     public void updateTypeByUsernameSuc() {
         // 管理员登录
-        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
 
         // 成功用例
@@ -133,7 +139,7 @@ public class UserManagementPageTest {
 
     public void updateTypeByUsernameFail() {
         // 管理员登录
-        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
 
         // 失败用例
@@ -180,7 +186,7 @@ public class UserManagementPageTest {
 
     public void queryUsersNormalConditionSuc() {
         // 管理员登录
-        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
 
         // 执行测试用例
@@ -254,7 +260,7 @@ public class UserManagementPageTest {
     public void queryUsersNormalPageParamSuc() {
 
         // 管理员登录
-        LOGIN_PAGE_TEST.login("2040484356777@qq.com", "123456");
+        LOGIN_PAGE_TEST.login("2040484356777@qq.com", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
 
         // 查询打开搜索框

@@ -36,12 +36,15 @@ public class VerticalOversteppingTest {
     public void adminUpdateSelfTypeFail() {
         // 管理员登录
         String username = "2040484356777@qq.com";
-        LOGIN_PAGE_TEST.login(username, "123456");
+        LOGIN_PAGE_TEST.login(username, CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
 
         // 查询当前管理员
         CommonChromeDriver.to(CommonConstants.USER_MANAGEMENT);
         instance.findElement(By.cssSelector("#toggle-search")).click();
+
+        explicitlyWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-username")));
+
         instance.findElement(By.cssSelector("#input-username")).click();
         instance.findElement(By.cssSelector("#input-username")).sendKeys(username);
         instance.findElement(By.cssSelector("#toggle-search")).click(); // 失焦触发查询

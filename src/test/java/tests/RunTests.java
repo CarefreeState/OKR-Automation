@@ -75,7 +75,6 @@ public class RunTests {
     @Test
     public void testUserManagementPage() {
         CommonChromeDriver.test(() -> {
-            // 测试所有功能
             UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
             // 1. 正常修改用户类型
             userManagementPageTest.updateTypeByUsernameSuc();
@@ -89,7 +88,6 @@ public class RunTests {
     @Test
     public void testUserManagementPageQuery() {
         CommonChromeDriver.test(() -> {
-            // 测试所有功能
             UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
             // 1. 正常条件查询用户
             userManagementPageTest.queryUsersNormalConditionSuc();
@@ -103,7 +101,42 @@ public class RunTests {
 
         CommonChromeDriver.test(() -> {
             // 测试所有功能
+            LoginPageTest loginPageTest = new LoginPageTest();
+            // 1. 登录成功
+            loginPageTest.loginSuc();
+            // 2. 登录失败
+            loginPageTest.loginFail();
 
+            HorizontalOversteppingTest horizontalOversteppingTest = new HorizontalOversteppingTest();
+            // 1. 未登录
+            horizontalOversteppingTest.notLoginQueryFail();
+            // 2. 普通用户
+            horizontalOversteppingTest.normalUserQueryFail();
+            // 3. 封禁用户
+            horizontalOversteppingTest.blockedUserQueryFail();
+
+            VerticalOversteppingTest verticalOversteppingTest = new VerticalOversteppingTest();
+            // 1. 管理员修改自己的类型
+            verticalOversteppingTest.adminUpdateSelfTypeFail();
+
+            AvatarManagementPageTest avatarManagementPageTest = new AvatarManagementPageTest();
+            // 1. 正常的上传头像和删除
+            avatarManagementPageTest.avatarOperateSuc();
+            // 2. 异常的上传头像和删除
+            avatarManagementPageTest.avatarOperateFail();
+
+            UserManagementPageTest userManagementPageTest = new UserManagementPageTest();
+            // 1. 正常修改用户类型
+            userManagementPageTest.updateTypeByUsernameSuc();
+            // 2. 异常修改用户类型
+            userManagementPageTest.updateTypeByUsernameFail();
+            // 3. 重置头像
+            userManagementPageTest.resetAvatarSuc();
+
+            // 1. 正常条件查询用户
+            userManagementPageTest.queryUsersNormalConditionSuc();
+            // 2. 正常条件分页查询用户
+            userManagementPageTest.queryUsersNormalPageParamSuc();
         });
 
     }

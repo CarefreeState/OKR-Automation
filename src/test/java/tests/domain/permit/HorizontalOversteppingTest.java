@@ -38,7 +38,7 @@ public class HorizontalOversteppingTest {
 
 
     public void normalUserQueryFail() {
-        LOGIN_PAGE_TEST.login("mamingsheng103@yeah.net", "123456");
+        LOGIN_PAGE_TEST.login("mamingsheng103@yeah.net", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
         CommonChromeDriver.to(CommonConstants.AVATAR_MANAGEMENT);
         assertQueryFail();
@@ -47,7 +47,7 @@ public class HorizontalOversteppingTest {
     }
 
     public void blockedUserQueryFail() {
-        LOGIN_PAGE_TEST.login("mamingsheng001", "123456");
+        LOGIN_PAGE_TEST.login("mamingsheng001", CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
         CommonChromeDriver.to(CommonConstants.AVATAR_MANAGEMENT);
         assertQueryFail();
