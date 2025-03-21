@@ -37,7 +37,7 @@ public class CommonChromeDriver {
     public static WebDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions(); // 创建选项
         options.addArguments("--remote-allow-origins=*"); // 允许所有远程源访问
-        options.addArguments("-headless"); // 无头模式
+//        options.addArguments("-headless"); // 无头模式
         ChromeDriver chromeDriver = new ChromeDriver(options); // 创建驱动
         chromeDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(CommonConstants.IMPLICITLY_WAIT)); // 隐式等待
         return chromeDriver; // 发挥驱动
@@ -107,7 +107,7 @@ public class CommonChromeDriver {
                 CommonUtils.randomChar()
         );
         // 按下快门
-        // todo 无法截取 alert 的情况，无头模式的时候是否记录，模拟键盘的截图怎么样？无头模式下模拟键盘的截图是否可以记录，但对于大部分情况下，不会直接用 alert，而是用模态框
+        // todo 无法截取 alert 的情况，无头模式的时候是否记录（可以），模拟键盘的截图怎么样？无头模式下模拟键盘的截图是否可以记录，但对于大部分情况下，不会直接用 alert，而是用模态框
         // todo 实战一下 Actions、Robot，比如用 Actions 模拟鼠标双击选中文本并删除再填入文本，Robot 模拟键盘进行截图
         CommonChromeDriver.waitReady();
         File srcFile = shotInstance.getScreenshotAs(OutputType.FILE);

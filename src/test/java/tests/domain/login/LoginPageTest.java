@@ -19,6 +19,7 @@ public class LoginPageTest {
 
     public void login(String username, String password) {
         CommonChromeDriver.to(CommonConstants.LOGIN_PAGE);
+        instance.manage().deleteAllCookies();
         instance.findElement(By.cssSelector("#username")).clear();
         instance.findElement(By.cssSelector("#username")).click();
         instance.findElement(By.cssSelector("#username")).sendKeys(username);
@@ -37,6 +38,9 @@ public class LoginPageTest {
         // 需要通过等待判断用例是否通过（等不到则说明用例失败，显示等待超时抛超时异常）
         CommonChromeDriver.shot(() -> {
             explicitlyWait.until(ExpectedConditions.not(ExpectedConditions.urlContains(CommonConstants.LOGIN_PAGE)));
+//            explicitlyWait.until(driver -> {
+//                return !CollectionUtil.isEmpty(driver.manage().getCookies());
+//            });
         });
 
     }

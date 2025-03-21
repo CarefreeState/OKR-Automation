@@ -9,8 +9,8 @@ package tests.common;
  */
 public interface CommonConstants {
 
-    String PASSWORD = "xxxxxx";
-    String NUM_TAG = "02"; // [01, 99]
+    String PASSWORD = "123456";
+    String NUM_TAG = "03"; // [01, 99]
     long EXPLICITLY_WAIT = 5000; // 允许网速很慢（超时等待就报错，反正就那一个）
     long IMPLICITLY_WAIT = 5000; // 允许网速很慢（超时等待就报错，反正就那一个）
 
