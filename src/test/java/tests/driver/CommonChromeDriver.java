@@ -37,7 +37,7 @@ public class CommonChromeDriver {
     public static WebDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions(); // 创建选项
         options.addArguments("--remote-allow-origins=*"); // 允许所有远程源访问
-//        options.addArguments("-headless"); // 无头模式
+        options.addArguments("-headless"); // 无头模式
         ChromeDriver chromeDriver = new ChromeDriver(options); // 创建驱动
         chromeDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(CommonConstants.IMPLICITLY_WAIT)); // 隐式等待
         return chromeDriver; // 发挥驱动

@@ -39,8 +39,8 @@ public class VerticalOversteppingTest {
         LOGIN_PAGE_TEST.login(username, CommonConstants.PASSWORD);
         LOGIN_PAGE_TEST.assertLoginSuc();
 
-        // 查询当前管理员
-        CommonChromeDriver.to(CommonConstants.USER_MANAGEMENT);
+        // 查询当前管理员（当前应该就是管理页）
+//        CommonChromeDriver.to(CommonConstants.USER_MANAGEMENT);
         instance.findElement(By.cssSelector("#toggle-search")).click();
 
         // 由于原本是折起来的状态，跟 none 一样是少数不可点击的状态
