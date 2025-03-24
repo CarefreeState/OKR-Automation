@@ -78,7 +78,7 @@ h1 a:active{
 }
 
 .file-item.expanded .file-content {
-  max-height: 1000px; /* 根据需要调整 */
+  max-height: 1500px; /* 根据需要调整 */
 }
 
 /* 备案号 */
