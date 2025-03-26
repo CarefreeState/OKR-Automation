@@ -1,2 +1,2 @@
-# OKR-Automation
-自动化测试代码
+# OKR-Management-Automation
+OKR 管理端自动化测试
