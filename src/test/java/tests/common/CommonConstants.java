@@ -15,7 +15,7 @@ public interface CommonConstants {
     long IMPLICITLY_WAIT = 5000; // 允许网速很慢（超时等待就报错，反正就那一个）
 
     String RESOURCES_PATH = "D:/javawork/OKR-Automation/src/test/resources/"; // 测试资源的根目录
-    String TEST_DOC_PATH = "D:/javawork/OKR-Test-Doc/"; // 测试资源的根目录
+    String TEST_DOC_PATH = "D:/javawork/OKR-Test-Doc/images/automation/"; // 测试资源的根目录
     static String getPath(String fileName) {
         return RESOURCES_PATH + fileName;
     }
